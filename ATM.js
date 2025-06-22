@@ -76,8 +76,21 @@ class ATM {
     return `NewPin Set Succesfully Your New Pin Is: ${obj.#pin}`;
   }
 
+  exit() {
+    return `Thank you for using our ATM`;
+  }
+
+  continueOrNot() {
+    return confirm("Do you want another transaction?");
+  }
+
   computeOperations(obj, incorrectAttempts) {
     const type = this.operations();
+
+    if (type === 5) {
+      return this.exit();
+    }
+
     if (!this.validateOperation(type, obj, incorrectAttempts)) {
       return "Try Again";
     }
@@ -87,7 +100,9 @@ class ATM {
       this.balanceInquiry,
       this.changePin,
     ];
-    return operations[type - 1](obj);
+    console.log(operations[type - 1](obj));
+
+    return this.continueOrNot() ? this.computeOperations(obj, 3) : this.exit();
   }
 }
 const obj = new ATM();
