@@ -1,7 +1,7 @@
 class ATM {
   #userName;
   #pin;
-
+  #availableAmount = 100000;
   set userName(name) {
     this.#userName = name;
   }
@@ -42,12 +42,28 @@ class ATM {
     return true;
   }
 
+  withdraw(obj) {
+    const amount = Number(prompt("Enter amount to withdraw:"));
+
+    if (amount > obj.#availableAmount || amount < 0) {
+      return "Insufficient Balance";
+    }
+    return (
+      `Transaction successful. Please collect your cash. Your current balance is:${  obj.#availableAmount -
+      amount}`
+    );
+  }
+
   computeOperations(obj, incorrectAttempts) {
-    const operation = this.operations();
-    return this.validateOperation(operation, obj, incorrectAttempts);
+    const type = this.operations();
+    if (!this.validateOperation(type, obj, incorrectAttempts)) {
+      return "Try Again";
+    }
+    const operations = [this.withdraw];
+    return operations[type - 1](obj);
   }
 }
 const obj = new ATM();
 obj.userName = prompt("enter userName", "ramsaran");
 obj.pin = Number(prompt("enter you ATM pin", 1456788));
-obj.computeOperations(obj, 3);
+console.log(obj.computeOperations(obj, 3));
