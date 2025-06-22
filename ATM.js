@@ -48,14 +48,22 @@ class ATM {
     if (amount > obj.#availableAmount || amount < 0) {
       return "Insufficient Balance";
     }
-    return (
-      `Transaction successful. Please collect your cash. Your current balance is:${  obj.#availableAmount -
-      amount}`
-    );
+    return `Transaction successful. Please collect your cash. Your current balance is:${
+      obj.#availableAmount - amount
+    }`;
+  }
+
+  deposit(obj) {
+    const amount = Number(prompt("Enter amount to deposit:"));
+    if (isNaN(amount)) {
+      return "Try Again";
+    }
+    obj.#availableAmount += amount;
+    return `Deposit successful availble balance: ${obj.#availableAmount}`;
   }
 
   balanceInquiry(obj) {
-    return `Available Balance:${obj.#availableAmount}`
+    return `Available Balance:${obj.#availableAmount}`;
   }
 
   computeOperations(obj, incorrectAttempts) {
@@ -63,7 +71,7 @@ class ATM {
     if (!this.validateOperation(type, obj, incorrectAttempts)) {
       return "Try Again";
     }
-    const operations = [this.withdraw, this.balanceInquiry];
+    const operations = [this.withdraw, this.deposit, this.balanceInquiry];
     return operations[type - 1](obj);
   }
 }
