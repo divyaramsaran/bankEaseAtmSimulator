@@ -48,6 +48,7 @@ class ATM {
     if (amount > obj.#availableAmount || amount < 0) {
       return "Insufficient Balance";
     }
+    obj.#availableAmount -= amount;
     return `Transaction successful. Please collect your cash. Your current balance is:${
       obj.#availableAmount - amount
     }`;
@@ -66,12 +67,26 @@ class ATM {
     return `Available Balance:${obj.#availableAmount}`;
   }
 
+  changePin(obj) {
+    const newPin = Number(prompt("Enter new ATM pin"));
+    if (isNaN(newPin)) {
+      return "Try Again";
+    }
+    obj.#pin = newPin;
+    return `NewPin Set Succesfully Your New Pin Is: ${obj.#pin}`;
+  }
+
   computeOperations(obj, incorrectAttempts) {
     const type = this.operations();
     if (!this.validateOperation(type, obj, incorrectAttempts)) {
       return "Try Again";
     }
-    const operations = [this.withdraw, this.deposit, this.balanceInquiry];
+    const operations = [
+      this.withdraw,
+      this.deposit,
+      this.balanceInquiry,
+      this.changePin,
+    ];
     return operations[type - 1](obj);
   }
 }
