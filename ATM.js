@@ -42,15 +42,20 @@ class ATM {
     return true;
   }
 
-  withdraw(obj) {
+  withdraw() {
     const amount = Number(prompt("Enter amount to withdraw:"));
-
-    if (amount > obj.#availableAmount || amount < 0) {
-      return "Insufficient Balance";
+    if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
+      return "Invalid amount. Please enter a positive multiple of 100.";
     }
-    obj.#availableAmount -= amount;
-    return `Transaction successful. Please collect your cash. Your current balance is:${
-      obj.#availableAmount - amount
+    if (amount > this.#availableAmount) {
+      return "Insufficient Balance.";
+    }
+    if (amount > 20000) {
+      return "Withdrawal limit per transaction is ₹20,000.";
+    }
+    this.#availableAmount -= amount;
+    return `Transaction successful. Please collect your cash. Your current balance is: ₹${
+      this.#availableAmount
     }`;
   }
 
