@@ -54,12 +54,16 @@ class ATM {
     );
   }
 
+  balanceInquiry(obj) {
+    return `Available Balance:${obj.#availableAmount}`
+  }
+
   computeOperations(obj, incorrectAttempts) {
     const type = this.operations();
     if (!this.validateOperation(type, obj, incorrectAttempts)) {
       return "Try Again";
     }
-    const operations = [this.withdraw];
+    const operations = [this.withdraw, this.balanceInquiry];
     return operations[type - 1](obj);
   }
 }
