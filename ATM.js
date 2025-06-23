@@ -42,6 +42,12 @@ class ATM {
     return true;
   }
 
+  details(obj) {
+    obj.userName = prompt("enter userName", "ramsaran");
+    obj.pin = Number(prompt("enter you ATM pin", 1456788));
+    console.log(obj.computeOperations(obj, 3));
+  }
+
   withdraw(obj) {
     const amount = Number(prompt("Enter amount to withdraw:"));
     if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
@@ -111,6 +117,4 @@ class ATM {
   }
 }
 const obj = new ATM();
-obj.userName = prompt("enter userName", "ramsaran");
-obj.pin = Number(prompt("enter you ATM pin", 1456788));
-console.log(obj.computeOperations(obj, 3));
+obj.details(obj);
