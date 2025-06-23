@@ -32,6 +32,13 @@ class ATM {
   details(obj) {
     obj.userName = prompt("enter userName", "ramsaran");
     obj.pin = Number(prompt("enter you ATM pin", 1456788));
+    const pinLength = Math.ceil(Math.log10(obj.pin));
+
+    if (isNaN(obj.pin) || pinLength < 5) {
+      console.clear();
+      console.log("Enter a valid pin length should be equal or greater than 5");
+      return obj.details(obj);
+    }
     console.log(obj.computeOperations(obj, 3));
   }
 
@@ -68,8 +75,11 @@ class ATM {
   changePin(obj) {
     console.log("Your current pin is", obj.pin);
     const newPin = Number(prompt("Enter new ATM pin"));
-    if (isNaN(newPin)) {
-      return "Try Again";
+    const pinLength = Math.ceil(Math.log10(newPin));
+    if (isNaN(newPin) || pinLength < 5) {
+      console.clear();
+      console.log("Enter a valid pin length should be equal or greater than 5");
+      return obj.changePin(obj);
     }
     obj.pin = newPin;
     return `NewPin Set Succesfully Your New Pin Is: ${obj.pin}`;
