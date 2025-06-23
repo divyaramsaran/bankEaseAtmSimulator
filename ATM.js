@@ -42,27 +42,27 @@ class ATM {
     return true;
   }
 
-  withdraw() {
+  withdraw(obj) {
     const amount = Number(prompt("Enter amount to withdraw:"));
     if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
       return "Invalid amount. Please enter a positive multiple of 100.";
     }
-    if (amount > this.#availableAmount) {
+    if (amount > obj.#availableAmount) {
       return "Insufficient Balance.";
     }
     if (amount > 20000) {
       return "Withdrawal limit per transaction is ₹20,000.";
     }
-    this.#availableAmount -= amount;
+    obj.#availableAmount -= amount;
     return `Transaction successful. Please collect your cash. Your current balance is: ₹${
-      this.#availableAmount
+      obj.#availableAmount
     }`;
   }
 
   deposit(obj) {
     const amount = Number(prompt("Enter amount to deposit:"));
-    if (isNaN(amount)) {
-      return "Try Again";
+    if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
+      return "Invalid amount. Please enter a positive multiple of 100.";
     }
     obj.#availableAmount += amount;
     return `Deposit successful availble balance: ${obj.#availableAmount}`;
