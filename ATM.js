@@ -2,21 +2,9 @@ class ATM {
   #userName;
   #pin;
   #availableAmount = 100000;
-  set userName(name) {
-    this.#userName = name;
-  }
-  get userName() {
-    return this.#userName;
-  }
-
-  set pin(password) {
-    this.#pin = password;
-  }
-  get pin() {
-    return this.#pin;
-  }
 
   operations() {
+    console.clear();
     console.log(`1.Withdraw
 2.Deposit
 3.Balance Inquiry
@@ -29,7 +17,6 @@ class ATM {
     if ((operation > 5 || operation < 1) && incorrectAttempts !== 0) {
       incorrectAttempts--;
 
-      console.clear();
       console.log("Incorrect Input Attemps Left", incorrectAttempts);
       return this.computeOperations(obj, incorrectAttempts);
     }
@@ -79,12 +66,13 @@ class ATM {
   }
 
   changePin(obj) {
+    console.log("Your current pin is", obj.pin);
     const newPin = Number(prompt("Enter new ATM pin"));
     if (isNaN(newPin)) {
       return "Try Again";
     }
-    obj.#pin = newPin;
-    return `NewPin Set Succesfully Your New Pin Is: ${obj.#pin}`;
+    obj.pin = newPin;
+    return `NewPin Set Succesfully Your New Pin Is: ${obj.pin}`;
   }
 
   exit() {
