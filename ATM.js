@@ -1,7 +1,7 @@
 class ATM {
-  #userName;
+  #cardHolderName;
   #pin;
-  #availableAmount = 100000;
+  #accountBalance = 100000;
 
   operations() {
     console.clear();
@@ -13,14 +13,14 @@ class ATM {
     return Number(prompt("Enter choice:"));
   }
 
-  validateOperation(operation, obj, incorrectAttempts) {
-    if ((operation > 5 || operation < 1) && incorrectAttempts !== 0) {
-      incorrectAttempts--;
+  validateOperation(operation, obj, remainingAttempts) {
+    if ((operation > 5 || operation < 1) && remainingAttempts !== 0) {
+      remainingAttempts--;
 
-      console.log("Incorrect Input Attemps Left", incorrectAttempts);
-      return this.computeOperations(obj, incorrectAttempts);
+      console.log("Incorrect Input Attemps Left", remainingAttempts);
+      return this.computeOperations(obj, remainingAttempts);
     }
-    if (incorrectAttempts === 0) {
+    if (remainingAttempts === 0) {
       console.log(
         "Card locked due to too many failed attempts. Please contact your bank."
       );
@@ -47,15 +47,15 @@ class ATM {
     if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
       return "Invalid amount. Please enter a positive multiple of 100.";
     }
-    if (amount > obj.#availableAmount) {
+    if (amount > obj.#accountBalance) {
       return "Insufficient Balance.";
     }
     if (amount > 20000) {
       return "Withdrawal limit per transaction is ₹20,000.";
     }
-    obj.#availableAmount -= amount;
+    obj.#accountBalance -= amount;
     return `Transaction successful. Please collect your cash. Your current balance is: ₹${
-      obj.#availableAmount
+      obj.#accountBalance
     }`;
   }
 
@@ -64,12 +64,12 @@ class ATM {
     if (isNaN(amount) || amount <= 0 || amount % 100 !== 0) {
       return "Invalid amount. Please enter a positive multiple of 100.";
     }
-    obj.#availableAmount += amount;
-    return `Deposit successful availble balance: ${obj.#availableAmount}`;
+    obj.#accountBalance += amount;
+    return `Deposit successful availble balance: ${obj.#accountBalance}`;
   }
 
   balanceInquiry(obj) {
-    return `Available Balance:${obj.#availableAmount}`;
+    return `Available Balance:${obj.#accountBalance}`;
   }
 
   changePin(obj) {
@@ -93,14 +93,14 @@ class ATM {
     return confirm("Do you want another transaction?");
   }
 
-  computeOperations(obj, incorrectAttempts) {
+  computeOperations(obj, accountBalance) {
     const type = this.operations();
 
     if (type === 5) {
       return this.exit();
     }
 
-    if (!this.validateOperation(type, obj, incorrectAttempts)) {
+    if (!this.validateOperation(type, obj, accountBalance)) {
       return "Try Again";
     }
     const operations = [
